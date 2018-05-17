@@ -1,6 +1,6 @@
 {
   "name": "CloudDrive",
-  "app_id": "",
+  "app_id": "62e43a6d",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
