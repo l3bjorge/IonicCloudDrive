@@ -3,7 +3,7 @@ import { NavController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { storage } from 'firebase';
 
-
+//Home
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
