@@ -22,7 +22,7 @@ export class DataProvider {
   }
 
   uploadImgToStorage(image): AngularFireUploadTask {
-    let newName = `${new Date().getTime()}.txt`;
+    let newName = `${new Date().getTime()}.jpeg`;
  
     return this.afStorage.ref(`pictures/${newName}`).putString(image, 'data_url');
   }
