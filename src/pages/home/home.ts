@@ -10,6 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { File } from '@ionic-native/file';
 import  firebase  from 'firebase';
+declare var window: any;
 
 //Home
 @Component({
@@ -18,6 +19,13 @@ import  firebase  from 'firebase';
 })
 export class HomePage {
   files: Observable<any[]>;
+  public options={
+    sourceType:this.camera.PictureSourceType.SAVEDPHOTOALBUM,
+    mediaType:this.camera.MediaType.ALLMEDIA,
+    destinationType:this.camera.DestinationType.FILE_URI
+  }
+
+  public Fbref:any;
 
   constructor(private camera: Camera, public navCtrl: NavController,  
     private dataProvider: DataProvider, 
@@ -144,7 +152,7 @@ viewFile(url) {
   this.iab.create(url);
 }
 
-choose(){
+/* choose(){
   this.fileChooser.open().then((uri)=>{
     alert(uri);
 
@@ -180,5 +188,26 @@ async upload(buffer, name){
 catch(e){
   console.error(e);
 }
+} */
+
+getMedia(){
+  this.camera.getPicture(this.options).then(fileuri=>{
+    window.resolveLocalFilesystemUrl("file://"+fileuri, FE=>{
+      FE.file(file=>{
+        const FR = new FileReader()
+        FR.onloadend=((res:any)=>{
+          let AF= res.target.result
+          let blob= new Blob([new Uint8Array(AF)], {type:'video/mp4'})
+          this.upload(blob)
+        });
+        FR.readAsArrayBuffer(file);
+      })
+    })
+  })
 }
+
+upload(blob:Blob){
+  this.Fbref.child('vid').put(blob);
+}
+
 }
