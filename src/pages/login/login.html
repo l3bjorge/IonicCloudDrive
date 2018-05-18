@@ -9,7 +9,38 @@
 
 <ion-content padding class="login">
 
-    <ion-img class="image" src="../../assets/imgs/cloud.jpg"></ion-img>
+    <ion-grid>
+        <ion-row>
+          <ion-col width-50 offset-25>
+
+            <h2 class="title">CloudDrive</h2>
+            <div class="icon"><img src="../../assets/imgs/cloud.jpg" alt="">
+            </div>
+            <h3 class="subtitle">Save your files in the Cloud</h3>
+
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-100>
+              <ion-item>
+                  <ion-label floating>Email Address</ion-label>
+                  <ion-input type ="text" [(ngModel)]="user.email"></ion-input>
+                </ion-item>     
+                <ion-item>
+                    <ion-label floating>Password</ion-label>
+                    <ion-input type ="password" [(ngModel)]="user.password"></ion-input>
+                </ion-item>
+
+                <div class="buttons">
+                <button ion-button (click)="login(user)">Login</button>
+                <button  color="light" ion-button (click)="register(user)">Register</button>
+                </div>
+                
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+          
+    <!-- <ion-img class="image" src="../../assets/imgs/cloud.jpg"></ion-img>
 
     <ion-item class="input">
         <ion-label floating>Email Address</ion-label>
@@ -23,6 +54,8 @@
 
       <button class="btns" ion-button (click)="login(user)">Login</button>
       <button class="btns" color="light" ion-button (click)="register(user)">Register</button>
+
+     -->
     
 
 </ion-content>

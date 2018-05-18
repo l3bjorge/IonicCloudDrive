@@ -1,26 +1,32 @@
 page-login {
  
 }
+
+.title, .subtitle, .icon{
+    text-align:center;
+}
+
+.title {
+    color: grey;
+    font-size:40px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.subtitle {
+    color:grey;
+    font-size:30px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+
+.icon img {
+    width: 375px;
+}
+
 .login{
     background: white;
 }
-.input{
-    background: whitesmoke;
-    margin: auto;
-    top: 5%;
-    width: 50%;
-}
 
-.btns{
-    position: relative;
-    margin-top: 60px;
-    left: 44%;
-}
-
-.image{
-    height: 50%;
-    width: 30%;
-    top:20%;
-    left:33%;
-    position: relative;
+.buttons{
+    text-align: center;
+    margin-top: 3%;
 }
