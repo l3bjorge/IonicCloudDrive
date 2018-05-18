@@ -7,6 +7,9 @@ import { storage } from 'firebase';
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 import { Observable } from 'rxjs/Observable';
+import { FileChooser } from '@ionic-native/file-chooser';
+import { File } from '@ionic-native/file';
+import  firebase  from 'firebase';
 
 //Home
 @Component({
@@ -16,7 +19,13 @@ import { Observable } from 'rxjs/Observable';
 export class HomePage {
   files: Observable<any[]>;
 
-  constructor(private camera: Camera, public navCtrl: NavController,  private dataProvider: DataProvider, private alertCtrl: AlertController, private toastCtrl: ToastController, private iab: InAppBrowser) {
+  constructor(private camera: Camera, public navCtrl: NavController,  
+    private dataProvider: DataProvider, 
+    private alertCtrl: AlertController, 
+    private toastCtrl: ToastController, 
+    private iab: InAppBrowser,
+    private fileChooser: FileChooser,
+    private file: File) {
     this.files = this.dataProvider.getFiles();
   }
 
@@ -135,6 +144,35 @@ viewFile(url) {
   this.iab.create(url);
 }
 
+choose(){
+  this.fileChooser.open().then((uri)=>{
+    alert(uri);
 
+    this.file.resolveLocalFilesystemUrl(uri).then((newUrl)=>{
+    alert(JSON.stringify(newUrl));
 
+    let dirPath = newUrl.nativeURL;
+    let dirPathSegments = dirPath.split('/')
+    dirPathSegments.pop()
+    dirPath = dirPathSegments.join('/')
+
+    this.file.readAsArrayBuffer(dirPath, newUrl.name).then(async (buffer)=>{
+     await this.upload(buffer, newUrl.name);
+    })
+  })
+})
+
+}
+
+async upload(buffer, name){
+  let blob = new Blob([buffer], {type: "image/jpeg"});
+
+  let storage = firebase.storage();
+
+  storage.ref('images/' + name).put(blob).then((d)=>{
+    alert("Done");
+  }).catch((error)=>{
+    alert(JSON.stringify(error))
+  })
+}
 }

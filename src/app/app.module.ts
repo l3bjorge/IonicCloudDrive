@@ -20,6 +20,8 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { Camera } from '@ionic-native/camera'
 import { DataProvider } from '../providers/data/data';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { FileChooser } from '@ionic-native/file-chooser';
+import { File } from '@ionic-native/file';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,9 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
     Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DataProvider,
-    InAppBrowser
+    InAppBrowser,
+    FileChooser,
+    File
   ]
 })
 export class AppModule {}
