@@ -25,8 +25,12 @@ addFile() {
     title: 'Store new information',
     inputs: [
       {
+        name: 'title',
+        placeholder: 'Title'
+      },
+      {
         name: 'info',
-        placeholder: 'Lorem ipsum dolor...'
+        placeholder: 'Write yout message here'
       }
     ],
     buttons: [
@@ -37,7 +41,7 @@ addFile() {
       {
         text: 'Store',
         handler: data => {
-          this.uploadInformation(data.info);
+          this.uploadInformation(data.title, data.info);
         }
       }
     ]
@@ -45,8 +49,8 @@ addFile() {
   inputAlert.present();
 }
 
-uploadInformation(text) {
-  let upload = this.dataProvider.uploadToStorage(text);
+uploadInformation(title, text) {
+  let upload = this.dataProvider.uploadToStorage(title, text);
 
   // Perhaps this syntax might change, it's no error here!
   upload.then().then(res => {
@@ -75,10 +79,35 @@ async uploadPhoto(text) {
   }
   
   const result = await this.camera.getPicture(options);
-  
+
   const image = `data:image/jpeg;base64,${result}`;
 
-  let upload = this.dataProvider.uploadImgToStorage(image);
+  let inputAlert = this.alertCtrl.create({
+    title: 'Name this Photo',
+    inputs: [
+      {
+        name: 'title',
+        placeholder: 'Photo Name'
+      }
+    ],
+    buttons: [
+      {
+        text: 'Cancel',
+        role: 'cancel'
+      },
+      {
+        text: 'Save',
+        handler: data => {
+          let upload = this.dataProvider.uploadImgToStorage(data.title, image);
+        }
+      }
+    ]
+  });
+  inputAlert.present();
+  
+  
+
+  
 
   upload.then().then(res => {
     this.dataProvider.storeInfoToDatabase(res.metadata).then(() => {

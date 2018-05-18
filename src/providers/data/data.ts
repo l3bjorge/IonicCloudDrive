@@ -15,13 +15,13 @@ export class DataProvider {
     });
   }
  
-  uploadToStorage(information): AngularFireUploadTask {
-    let newName = `${new Date().getTime()}.txt`;
+  uploadToStorage(title, information): AngularFireUploadTask {
+    let newName = title + ".txt";
  
     return this.afStorage.ref(`files/${newName}`).putString(information);
   }
 
-  uploadImgToStorage(image): AngularFireUploadTask {
+  uploadImgToStorage(title, image): AngularFireUploadTask {
     let newName = `${new Date().getTime()}.jpeg`;
  
     return this.afStorage.ref(`pictures/${newName}`).putString(image, 'data_url');
