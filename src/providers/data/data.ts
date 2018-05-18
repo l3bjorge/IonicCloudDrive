@@ -26,6 +26,12 @@ export class DataProvider {
  
     return this.afStorage.ref(`pictures/${newName}`).putString(image, 'data_url');
   }
+
+  uploadVidToStorage(blob): AngularFireUploadTask {
+    let newName = "sample.jpg";
+ 
+    return this.afStorage.ref(`images/${newName}`).put(blob);
+  }
  
   storeInfoToDatabase(metainfo) {
     let toSave = {

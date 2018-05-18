@@ -192,12 +192,12 @@ catch(e){
 
 getMedia(){
   this.camera.getPicture(this.options).then(fileuri=>{
-    window.resolveLocalFilesystemUrl("file://"+fileuri, FE=>{
+    window.resolveLocalFileSystemURL("file://"+fileuri, FE=>{
       FE.file(file=>{
         const FR = new FileReader()
-        FR.onloadend=((res:any)=>{
-          let AF= res.target.result
-          let blob= new Blob([new Uint8Array(AF)], {type:'video/mp4'})
+        FR.onloadend=((result:any)=>{
+          let AF= result.target.result
+          let blob= new Blob([new Uint8Array(AF)], {type:'image/jpg'})
           this.upload(blob)
         });
         FR.readAsArrayBuffer(file);
@@ -207,7 +207,14 @@ getMedia(){
 }
 
 upload(blob:Blob){
-  this.Fbref.child('vid').put(blob);
+  let upload = this.dataProvider.uploadVidToStorage(blob);
+          upload.then().then(res => {
+            this.dataProvider.storeInfoToDatabase(res.metadata).then(() => {
+              let toast = this.toastCtrl.create({
+                message: 'New Vid added!',
+                duration: 3000
+              });
+})
+          })
 }
-
 }
