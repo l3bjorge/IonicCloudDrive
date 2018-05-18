@@ -99,25 +99,22 @@ async uploadPhoto(text) {
         text: 'Save',
         handler: data => {
           let upload = this.dataProvider.uploadImgToStorage(data.title, image);
+          upload.then().then(res => {
+            this.dataProvider.storeInfoToDatabase(res.metadata).then(() => {
+              let toast = this.toastCtrl.create({
+                message: 'New Img added!',
+                duration: 3000
+              });
+              toast.present();
+            });
+          });
         }
       }
     ]
   });
   inputAlert.present();
   
-  
 
-  
-
-  upload.then().then(res => {
-    this.dataProvider.storeInfoToDatabase(res.metadata).then(() => {
-      let toast = this.toastCtrl.create({
-        message: 'New Img added!',
-        duration: 3000
-      });
-      toast.present();
-    });
-  });
 }
 catch (e) {
   console.error(e);
