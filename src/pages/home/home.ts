@@ -165,6 +165,7 @@ choose(){
 }
 
 async upload(buffer, name){
+  try{
   let blob = new Blob([buffer], {type: "image/jpeg"});
 
   let storage = firebase.storage();
@@ -174,5 +175,10 @@ async upload(buffer, name){
   }).catch((error)=>{
     alert(JSON.stringify(error))
   })
+}
+
+catch(e){
+  console.error(e);
+}
 }
 }
