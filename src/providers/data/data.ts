@@ -20,6 +20,12 @@ export class DataProvider {
  
     return this.afStorage.ref(`files/${newName}`).putString(information);
   }
+
+  uploadImgToStorage(image): AngularFireUploadTask {
+    let newName = `${new Date().getTime()}.txt`;
+ 
+    return this.afStorage.ref(`pictures/${newName}`).putString(image, 'data_url');
+  }
  
   storeInfoToDatabase(metainfo) {
     let toSave = {

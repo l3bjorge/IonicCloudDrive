@@ -7,8 +7,6 @@
  
  
 <ion-content>
-  
-    <button ion-button (click)="takePhoto()">Take Photo</button>
    
  
   <ion-card *ngFor="let file of files | async">
@@ -31,10 +29,16 @@
  
   </ion-card>
  
-  <ion-fab right bottom>
+  <ion-fab left bottom>
     <button ion-fab color="primary" (click)="addFile()">
-      <ion-icon name="cloud-upload"></ion-icon>
+      <ion-icon name="paper"></ion-icon>
     </button>
   </ion-fab>
+
+  <ion-fab right bottom>
+      <button ion-fab color="primary" (click)="uploadPhoto()">
+        <ion-icon name="camera"></ion-icon>
+      </button>
+    </ion-fab>
  
 </ion-content>
