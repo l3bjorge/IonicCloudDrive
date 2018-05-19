@@ -6,7 +6,6 @@ import { MyApp } from './app.component';
 import { AboutPage } from '../pages/about/about';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
-import { SettingsPage } from '../pages/settings/settings';
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -23,18 +22,25 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
+import { FileManagerPage } from '../pages/file-manager/file-manager';
+import { DatabaseProvider } from '../providers/database/database';
+
+import { SQLitePorter } from '@ionic-native/sqlite-porter';
+import { SQLite } from '@ionic-native/sqlite';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
     MyApp,
     AboutPage,
     LoginPage,
-    SettingsPage,
+    FileManagerPage,
     HomePage,
     TabsPage
   ],
   imports: [
     BrowserModule,
+    IonicStorageModule.forRoot(),
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
@@ -46,7 +52,7 @@ import { File } from '@ionic-native/file';
     MyApp,
     AboutPage,
     LoginPage,
-    SettingsPage,
+    FileManagerPage,
     HomePage,
     TabsPage
   ],
@@ -60,7 +66,10 @@ import { File } from '@ionic-native/file';
     FileTransferObject,
     File,
     InAppBrowser,
-    FileChooser
+    FileChooser,
+    DatabaseProvider,
+    SQLitePorter,
+    SQLite
     
   ]
 })
