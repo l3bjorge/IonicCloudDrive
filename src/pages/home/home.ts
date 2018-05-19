@@ -179,6 +179,7 @@ viewFile(url) {
 getMedia(){
   this.camera.getPicture(this.options).then((imageData) => {
     this.imageURI = imageData;
+    this.imageURI = 'file//' +this.imageURI;
   }, (err) => {
     console.log(err);
     alert(err);
@@ -210,7 +211,7 @@ uploadFile() {
   alert(this.imageURI);
   
   try{
-  this.file.resolveLocalFilesystemUrl('file://' + this.imageURI).then((newUrl)=>{
+  this.file.resolveLocalFilesystemUrl(this.imageURI).then((newUrl)=>{
     alert(JSON.stringify(newUrl));
     loader.dismiss();
 
