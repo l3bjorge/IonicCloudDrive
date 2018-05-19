@@ -179,7 +179,7 @@ viewFile(url) {
 getMedia(){
   this.camera.getPicture(this.options).then((imageData) => {
     this.imageURI = imageData;
-    this.imageURI = 'file//' +this.imageURI;
+    this.imageURI = 'file://' +this.imageURI;
   }, (err) => {
     console.log(err);
     alert(err);
