@@ -209,26 +209,17 @@ uploadFile() {
 
   alert(this.imageURI);
   
+  try{
   this.file.resolveLocalFilesystemUrl(this.imageURI).then((newUrl)=>{
     alert(JSON.stringify(newUrl));
-
     loader.dismiss();
 
-    let dirPath = newUrl.nativeURL;
-    let dirPathSegments = dirPath.split('/')
-    dirPathSegments.pop()
-    dirPath = dirPathSegments.join('/')
-
-    this.file.readAsArrayBuffer(dirPath, newUrl.name).then((buffer)=>{
-      let blob = new Blob([buffer], {type: "image/jpeg"})
-      let storage = firebase.storage();
-
-      storage.ref('images/' + name).put(blob).then((d)=>{
-        alert("Done");
-      }).catch((error)=>{
-        alert(JSON.stringify(error))
-      })
-    })
   })
+} catch(e){
+  console.log(e);
+  alert(e);
+}
+
+  
 }
 }
