@@ -21,6 +21,7 @@ import { Camera } from '@ionic-native/camera'
 import { DataProvider } from '../providers/data/data';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { FileChooser } from '@ionic-native/file-chooser';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 
 @NgModule({
@@ -55,9 +56,12 @@ import { File } from '@ionic-native/file';
     Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DataProvider,
+    FileTransfer,
+    FileTransferObject,
+    File,
     InAppBrowser,
-    FileChooser,
-    File
+    FileChooser
+    
   ]
 })
 export class AppModule {}

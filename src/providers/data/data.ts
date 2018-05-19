@@ -1,16 +1,22 @@
 import { Injectable } from '@angular/core';
+import { LoadingController} from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
  
 @Injectable()
 export class DataProvider {
  
-  constructor(private db: AngularFireDatabase, private afStorage: AngularFireStorage) { }
+  constructor(public loadingCtrl: LoadingController, private db: AngularFireDatabase, private afStorage: AngularFireStorage) { }
  
   getFiles() {
+    let loader = this.loadingCtrl.create({
+      content: "Uploading..."
+    });
+    loader.present();
     let ref = this.db.list('files');
  
     return ref.snapshotChanges().map(changes => {
+      loader.dismiss();
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     });
   }

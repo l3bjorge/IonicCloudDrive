@@ -41,11 +41,20 @@
               <button ion-fab color="light" (click)="uploadMusic()">
                   <ion-icon name="musical-notes"></ion-icon>
                 </button>
-                <button ion-fab color="dark" (click)="getMedia()">
+                <button ion-fab color="dark" (click)="uploadFile()">
                     <ion-icon name="phone-portrait"></ion-icon>
                   </button>
       </ion-fab-list>
     </ion-fab>
+
+    <ion-item>
+        <p>{{imageURI}}</p>
+        <button ion-button color="secondary" (click)="getMedia()">Get Image</button>
+      </ion-item>
+      <ion-item>
+        <h4>Image Preview</h4>
+        <img src="{{imageFileName}}" *ngIf="imageFileName" alt="Ionic File" width="300" />
+      </ion-item>
 
  
 </ion-content>

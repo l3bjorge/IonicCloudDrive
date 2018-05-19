@@ -1,7 +1,7 @@
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { DataProvider } from './../../providers/data/data';
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, LoadingController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { storage } from 'firebase';
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
@@ -9,6 +9,7 @@ import { ToastController } from 'ionic-angular/components/toast/toast-controller
 import { Observable } from 'rxjs/Observable';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { File } from '@ionic-native/file';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import  firebase  from 'firebase';
 declare var window: any;
 
@@ -26,6 +27,8 @@ export class HomePage {
   }
 
   public Fbref:any;
+  imageURI:any;
+  imageFileName:any;
 
   constructor(private camera: Camera, public navCtrl: NavController,  
     private dataProvider: DataProvider, 
@@ -33,8 +36,11 @@ export class HomePage {
     private toastCtrl: ToastController, 
     private iab: InAppBrowser,
     private fileChooser: FileChooser,
+    public loadingCtrl: LoadingController,
+    private transfer: FileTransfer,
     private file: File) {
     this.files = this.dataProvider.getFiles();
+    this.Fbref=firebase.storage().ref();
   }
 
 addFile() {
@@ -152,61 +158,35 @@ viewFile(url) {
   this.iab.create(url);
 }
 
-/* choose(){
-  this.fileChooser.open().then((uri)=>{
-    alert(uri);
-
-    this.file.resolveLocalFilesystemUrl(uri).then((newUrl)=>{
-    alert(JSON.stringify(newUrl));
-
-    let dirPath = newUrl.nativeURL;
-    let dirPathSegments = dirPath.split('/')
-    dirPathSegments.pop()
-    dirPath = dirPathSegments.join('/')
-
-    this.file.readAsArrayBuffer(dirPath, newUrl.name).then(async (buffer)=>{
-     await this.upload(buffer, newUrl.name);
-    })
-  })
-})
-
-}
-
-async upload(buffer, name){
-  try{
-  let blob = new Blob([buffer], {type: "image/jpeg"});
-
-  let storage = firebase.storage();
-
-  storage.ref('images/' + name).put(blob).then((d)=>{
-    alert("Done");
-  }).catch((error)=>{
-    alert(JSON.stringify(error))
-  })
-}
-
-catch(e){
-  console.error(e);
-}
-} */
-
-getMedia(){
+/* getMedia(){
   this.camera.getPicture(this.options).then(fileuri=>{
     window.resolveLocalFileSystemURL("file://"+fileuri, FE=>{
       FE.file(file=>{
-        const FR = new FileReader()
-        FR.onloadend=((result:any)=>{
-          let AF= result.target.result
+        const FR=new FileReader()
+        FR.onloadend=(res:any)=>{
+          let AF= res.target.result;
           let blob= new Blob([new Uint8Array(AF)], {type:'image/jpg'})
           this.upload(blob)
-        });
+        };
         FR.readAsArrayBuffer(file);
       })
     })
+  }).catch(error=>{
+    alert(error)
   })
+} */
+
+getMedia(){
+  this.camera.getPicture(this.options).then((imageData) => {
+    this.imageURI = imageData;
+  }, (err) => {
+    console.log(err);
+    alert(err);
+  });
 }
 
 upload(blob:Blob){
+  try{
   let upload = this.dataProvider.uploadVidToStorage(blob);
           upload.then().then(res => {
             this.dataProvider.storeInfoToDatabase(res.metadata).then(() => {
@@ -216,5 +196,39 @@ upload(blob:Blob){
               });
 })
           })
+        } catch(e){
+          console.error(e);
+        }
+}
+
+uploadFile() {
+  let loader = this.loadingCtrl.create({
+    content: "Uploading..."
+  });
+  loader.present();
+
+  alert(this.imageURI);
+  
+  this.file.resolveLocalFilesystemUrl(this.imageURI).then((newUrl)=>{
+    alert(JSON.stringify(newUrl));
+
+    loader.dismiss();
+
+    let dirPath = newUrl.nativeURL;
+    let dirPathSegments = dirPath.split('/')
+    dirPathSegments.pop()
+    dirPath = dirPathSegments.join('/')
+
+    this.file.readAsArrayBuffer(dirPath, newUrl.name).then((buffer)=>{
+      let blob = new Blob([buffer], {type: "image/jpeg"})
+      let storage = firebase.storage();
+
+      storage.ref('images/' + name).put(blob).then((d)=>{
+        alert("Done");
+      }).catch((error)=>{
+        alert(JSON.stringify(error))
+      })
+    })
+  })
 }
 }
