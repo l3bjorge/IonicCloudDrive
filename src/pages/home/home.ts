@@ -210,7 +210,7 @@ uploadFile() {
   alert(this.imageURI);
   
   try{
-  this.file.resolveLocalFilesystemUrl(this.imageURI).then((newUrl)=>{
+  this.file.resolveLocalFilesystemUrl('file://' + this.imageURI).then((newUrl)=>{
     alert(JSON.stringify(newUrl));
     loader.dismiss();
 
