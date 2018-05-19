@@ -11,6 +11,7 @@ import { FileChooser } from '@ionic-native/file-chooser';
 import { File } from '@ionic-native/file';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import  firebase  from 'firebase';
+import { Platform } from 'ionic-angular';
 declare var window: any;
 
 //Home
@@ -38,6 +39,7 @@ export class HomePage {
     private fileChooser: FileChooser,
     public loadingCtrl: LoadingController,
     private transfer: FileTransfer,
+    public platform: Platform,
     private file: File) {
     this.files = this.dataProvider.getFiles();
     this.Fbref=firebase.storage().ref();
@@ -242,9 +244,14 @@ uploadFile() {
 
  download(file)
 {
+  this.platform.ready().then(() => {
+    // Okay, so the platform is ready and our plugins are available.
+    // Here you can do any higher level native things you might need.
+  
     //alert(Document.path);
     console.log(file.url);
     const fileTransfer: FileTransferObject = this.transfer.create();
+  
 
     let path = this.file.dataDirectory;
 
@@ -256,5 +263,6 @@ uploadFile() {
         console.log('Download error: ' + error);
         alert('Error: ' + error);
     });
+  });
 } 
 }
