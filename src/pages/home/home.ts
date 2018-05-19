@@ -246,7 +246,9 @@ uploadFile() {
     console.log(file.url);
     const fileTransfer: FileTransferObject = this.transfer.create();
 
-    fileTransfer.download(file.url, file.fullPath, true).then((entry) => {
+    let path = this.file.dataDirectory;
+
+    fileTransfer.download(file.url, path + 'myFile.txt', true).then((entry) => {
         console.log('Download complete: ' + entry.toURL());
         alert('Success');
         alert('Downloaded to : ' + entry.toURL());
