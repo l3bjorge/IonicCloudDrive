@@ -179,7 +179,7 @@ viewFile(url) {
 getMedia(){
   this.camera.getPicture(this.options).then((imageData) => {
     this.imageURI = imageData;
-    this.imageURI = 'file://' +this.imageURI;
+    this.imageURI = 'file://' + this.imageURI; 
   }, (err) => {
     console.log(err);
     alert(err);
@@ -213,14 +213,46 @@ uploadFile() {
   try{
   this.file.resolveLocalFilesystemUrl(this.imageURI).then((newUrl)=>{
     alert(JSON.stringify(newUrl));
+
     loader.dismiss();
 
+    let dirPath = newUrl.nativeURL;
+    let dirPathSegments = dirPath.split('/')
+    dirPathSegments.pop()
+    dirPath = dirPathSegments.join('/')
+
+    this.file.readAsArrayBuffer(dirPath, newUrl.name).then((buffer)=>{
+      let blob = new Blob([buffer], {type: "image/jpeg"})
+      let storage = firebase.storage();
+
+      storage.ref('images/' + name).put(blob).then((d)=>{
+        alert("Done");
+      }).catch((error)=>{
+        alert(JSON.stringify(error))
+      })
+    })
   })
 } catch(e){
   console.log(e);
   alert(e);
+  loader.dismiss();
 }
-
   
 }
+
+ download(file)
+{
+    //alert(Document.path);
+    console.log(file.url);
+    const fileTransfer: FileTransferObject = this.transfer.create();
+
+    fileTransfer.download(file.url, file.fullPath, true).then((entry) => {
+        console.log('Download complete: ' + entry.toURL());
+        alert('Success');
+        alert('Downloaded to : ' + entry.toURL());
+    },(error) => {
+        console.log('Download error: ' + error);
+        alert('Error: ' + error);
+    });
+} 
 }

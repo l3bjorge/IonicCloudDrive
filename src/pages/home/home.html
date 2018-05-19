@@ -9,19 +9,24 @@
 <ion-content>
    
  
-  <ion-card *ngFor="let file of files | async">
+  <ion-card color="card" *ngFor="let file of files | async">
     <ion-card-header>
       {{ file.created | date:'medium' }}
     </ion-card-header>
  
     <ion-card-content>
  
-      <button ion-button block icon-left outline (click)="viewFile(file.url)">
+      <button ion-button block icon-left color="primary" (click)="viewFile(file.url)">
         <ion-icon name="eye"></ion-icon>
         {{ file.fullPath }}
       </button>
+
+      <button ion-button block icon-left color="secondary" (click)="download(file)">
+          <ion-icon name="download"></ion-icon>
+          Download
+        </button>
  
-      <button ion-button block outline icon-left color="danger" (click)="deleteFile(file)">
+      <button ion-button block  icon-left color="button" (click)="deleteFile(file)">
         <ion-icon name="trash"></ion-icon> Delete
       </button>
  
@@ -47,7 +52,7 @@
       </ion-fab-list>
     </ion-fab>
 
-    <ion-item>
+    <!-- <ion-item>
         <p>{{imageURI}}</p>
         <button ion-button color="secondary" (click)="getMedia()">Get Image</button>
       </ion-item>
@@ -55,6 +60,6 @@
         <h4>Image Preview</h4>
         <img src="{{imageFileName}}" *ngIf="imageFileName" alt="Ionic File" width="300" />
       </ion-item>
-
+ -->
  
 </ion-content>
